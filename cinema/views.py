@@ -4,7 +4,7 @@ from rest_framework import (
     status,
     generics,
     viewsets,
-    mixins
+    mixins,
 )
 
 from django.shortcuts import get_object_or_404
@@ -111,3 +111,11 @@ class CinemaHallViewSet(
 ):
     queryset = CinemaHall.objects.all()
     serializer_class = CinemaHallSerializer
+
+
+class MovieViewSet(viewsets.ModelViewSet):
+    queryset = Movie.objects.all().prefetch_related(
+        "genres__movies",
+        "actors__movies"
+    )
+    serializer_class = MovieSerializer

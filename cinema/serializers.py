@@ -24,14 +24,11 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "description", "actors", "genres", "duration"]
 
     def create(self, validated_data):
-        # Extract the actors and genres from validated_data
         actors = validated_data.pop("actors", [])
         genres = validated_data.pop("genres", [])
 
-        # Create the Movie instance
         movie = Movie.objects.create(**validated_data)
 
-        # Set the many-to-many relationships
         movie.actors.set(actors)
         movie.genres.set(genres)
 
